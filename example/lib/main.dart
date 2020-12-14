@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.purple[900], // sets color of vsScrollBar
                 isAlwaysShown: true, // default false
                 radius: 50, // sets radius of vsScrollBar
-                thickness: 10, // sets thickness of vsScrollBar
+                thickness: 6, // sets thickness of vsScrollBar
                 child: ListView.builder(
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
