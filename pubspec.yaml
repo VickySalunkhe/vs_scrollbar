@@ -1,7 +1,7 @@
 name: vs_scrollbar
 description: Custom ScrollBar for both Horizontal and Vertical list
 version: 0.0.1
-author: Vicky Salunkhe <salunkhevicky01@gmail.com>
+authors: Vicky Salunkhe <salunkhevicky01@gmail.com>
 homepage: https://github.com/VickySalunkhe/vs_scrollbar.git
 
 environment:
