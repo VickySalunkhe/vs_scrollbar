@@ -7,14 +7,14 @@ Wrap This ScrollBar to any ScrollableList.
 ```ListView```  
 ```Listview.builder```
 
-### Example 
+## Example 
 Try out example code all parameters are optional, currently serving basic use case scenarios.
 
-## Horizontal List
+### Horizontal List
 ![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.gif)
 
 
-## Vertical List
+### Vertical List
 ![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.gif)
 
 ### Code
