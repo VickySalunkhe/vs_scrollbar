@@ -1,8 +1,8 @@
 name: vs_scrollbar
-description: Custom ScrollBar for both Horizontal and Vertical list
+description: Custom Scroll Bar supporting both Horizontal and Vertical scrollable list. 
 version: 0.0.1
-authors: Vicky Salunkhe <salunkhevicky01@gmail.com>
 homepage: https://github.com/VickySalunkhe/vs_scrollbar.git
+repository: https://github.com/VickySalunkhe/vs_scrollbar.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
