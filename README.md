@@ -40,6 +40,7 @@ VsScrollbar(
    ),
 )
 ```
+---
 
 ### Show some :heart: and star the repo.
 
