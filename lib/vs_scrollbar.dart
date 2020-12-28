@@ -35,6 +35,7 @@ class VsScrollbar extends StatefulWidget {
     this.thickness,
     this.radius,
     this.controller,
+    this.allowDrag = true,
     this.isAlwaysShown = false,
   })  : assert(!isAlwaysShown || controller != null,
             'When isAlwaysShown is true, must pass a controller that is attached to a scroll view'),
@@ -53,6 +54,9 @@ class VsScrollbar extends StatefulWidget {
 
   /// {@macro flutter.cupertino.cupertinoScrollbar.isAlwaysShown}
   final bool isAlwaysShown;
+
+  /// Allow drag scroll bar
+  final bool allowDrag;
 
   final Color color;
 
@@ -180,23 +184,41 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (_useCupertinoScrollbar) {
+    if (_useCupertinoScrollbar)
       return CupertinoScrollbar(
         child: widget.child,
         isAlwaysShown: widget.isAlwaysShown,
-        controller: widget.controller,
-      );
-    }
+        controller: widget.controller);
+
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
-      child: RepaintBoundary(
-        child: CustomPaint(
-          foregroundPainter: _materialPainter,
-          child: RepaintBoundary(
-            child: widget.child,
-          ),
-        ),
-      ),
-    );
+      child: GestureDetector(
+        onVerticalDragUpdate: widget.allowDrag
+            ? _onVerticalDragUpdate : null,
+        child: RepaintBoundary(
+          child: CustomPaint(
+            foregroundPainter: _materialPainter,
+            child: RepaintBoundary(
+              child: widget.child))),
+      ));
+  }
+
+  void _onVerticalDragUpdate(DragUpdateDetails details) {
+    final total = widget.controller.position.maxScrollExtent;
+
+    if(widget.controller.position.extentBefore > 0
+        || widget.controller.position.extentAfter > 0){
+
+      if(details.localPosition.dy < 0)
+        return widget.controller.jumpTo(0);
+
+      final offSet = total / widget.controller.position.extentInside
+          * details.localPosition.dy;
+
+      if(offSet > total)
+        return widget.controller.jumpTo(total);
+
+      widget.controller.jumpTo(offSet);
+    }
   }
 }
