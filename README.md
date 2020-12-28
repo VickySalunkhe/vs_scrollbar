@@ -11,8 +11,8 @@ Wrap This ScrollBar to any ScrollableList.
 ## Example 
 Try out example code all parameters are optional, currently serving basic use case scenarios.
 
-|                 Horizontal List                     |                Vertical List                     |
-| <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.webp" width="400"> | <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.webp" width="400"> | 
+|                                  Horizontal List                                       |                           Vertical List                                |
+| <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.webp" width="300"> | <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.webp" width="300"> | 
 
 
 ### Code
