@@ -1,7 +1,11 @@
-## [0.0.1] - 17/12/2020
+## [0.0.3] - 28/12/2020
 
- *Initial release.
+*Added List Drag Support for both horizontal vertical list.
 
 ## [0.0.2] - 25/12/2020
 
 *Minor Changes
+
+## [0.0.1] - 16/12/2020
+
+ *Initial release.
