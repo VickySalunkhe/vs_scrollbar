@@ -11,11 +11,11 @@ Wrap This ScrollBar to any ScrollableList.
 Try out example code all parameters are optional, currently serving basic use case scenarios.
 
 ### Horizontal List
-![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.gif)
+![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.webp)
 
 
 ### Vertical List
-![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.gif)
+![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.webp)
 
 ### Code
 
