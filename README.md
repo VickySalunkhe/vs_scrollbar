@@ -17,8 +17,8 @@ Try out example code all parameters are optional, currently serving basic use ca
       <th> Vertical List </th>
    </tr>
    <tr>
-      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.webp" width="300"> </td>
-      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.webp" width="300"> </td>
+      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.gif" width="300"> </td>
+      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.gif" width="300"> </td>
    </tr>
 </table>
    
