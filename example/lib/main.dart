@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter vsScrollBar Demo',
+      title: 'Flutter VsScrollBar Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,6 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _verticalList = true;
+  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +60,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ? MediaQuery.of(context).size.height - 250
                   : 150,
               child: VsScrollbar(
-                controller: ScrollController(),
+                controller: _scrollController,
+                allowDrag:
+                    true, // allows to scroll the list using scrollbar [Default : true]
                 color: Colors.purple[900], // sets color of vsScrollBar
                 isAlwaysShown: true, // default false
                 radius: 50, // sets radius of vsScrollBar
-                thickness: 6, // sets thickness of vsScrollBar
+                thickness: 8, // sets thickness of vsScrollBar
                 child: ListView.builder(
+                    controller:
+                        _scrollController, // use same scrollController object to support drag functionality
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     scrollDirection:
@@ -75,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 100,
                           width: MediaQuery.of(context).size.width,
                           color: Colors.purple[900],
-                          margin: EdgeInsets.all(15));
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 20));
                     }),
               ),
             )
