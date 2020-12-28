@@ -1,6 +1,7 @@
 # vs_scrollbar
 
-A Custom ScrollBar for both Horizontal and Vertical list, you can adjust scrollbar's ```thickness```, ```radius``` and set custom ```colors```, with prebuilt methods of default ScrollBar for Flutter.
+Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
+You can adjust scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
 
 Wrap This ScrollBar to any ScrollableList.  
 ```SingleChildScrollView```  
@@ -20,13 +21,17 @@ Try out example code all parameters are optional, currently serving basic use ca
 ### Code
 
 ```dart
+ScrollController _scrollController = ScrollController();
+
 VsScrollbar(
-   controller: ScrollController(),
+   controller: _scrollController,
+   allowDrag: true, // allows to scroll the list using scrollbar [default : true]
    color: Colors.purple[900], // sets color of vsScrollBar
-   isAlwaysShown: true, // default false
    radius: 50, // sets radius of vsScrollBar
-   thickness: 6, // sets thickness of vsScrollBar
+   thickness: 8, // sets thickness of vsScrollBar
+   isAlwaysShown: true, // default false
    child: ListView.builder(
+             controller: _scrollController, // use same scrollController object to support drag functionality
              shrinkWrap: true,
              physics: BouncingScrollPhysics(),
              itemCount: 6,
