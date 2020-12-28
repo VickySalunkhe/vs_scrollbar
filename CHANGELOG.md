@@ -1,4 +1,4 @@
-## [0.0.4] - 28/12/2020
+## [0.1.0] - 28/12/2020
 
 *Added List Drag Support for both horizontal vertical list.
 

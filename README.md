@@ -1,5 +1,7 @@
 # vs_scrollbar
 
+[![Pub](https://img.shields.io/pub/v/vs_scrollbar.svg)](https://pub.dartlang.org/packages/vs_scrollbar)
+
 Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
 
 You can adjust scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
@@ -11,17 +13,15 @@ Wrap This ScrollBar to any ScrollableList.
 
 ## Example 
 Try out example code all parameters are optional, currently serving basic use case scenarios.
-<table>
-   <tr>
-      <th> Horizontal List </th>
-      <th> Vertical List </th>
-   </tr>
-   <tr>
-      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.gif" width="300"> </td>
-      <td> <img src="https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.gif" width="300"> </td>
-   </tr>
-</table>
-   
+
+## Horizontal List
+
+![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/horizontal.gif)
+
+---
+
+## Vertical List
+![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.gif)
 
 ### Code
 
@@ -69,4 +69,32 @@ If you found this project useful, then please consider giving it a :star: on Git
 <a href="https://www.buymeacoffee.com/VickySalunkhe" target="_blank"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=VickySalunkhe&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
 
 ---
+
+
+<div class="BorderGrid-cell">
+              <h2 class="h4 mb-3">
+  <a href="/VickySalunkhe/vs_scrollbar/graphs/contributors" class="link-gray-dark no-underline ">
+    Contributors <span title="2" class="Counter ">2</span>
+</a></h2>
+    
+  <ul class="list-style-none ">
+      <li class="mb-2 d-flex">
+        <a class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/VickySalunkhe/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/VickySalunkhe">
+          <img class="d-block avatar-user" src="https://avatars3.githubusercontent.com/u/37410248?s=64&amp;v=4" width="32" height="32" alt="@VickySalunkhe">
+</a>          <span class="flex-self-center flex-auto min-width-0 css-truncate css-truncate-target width-fit">
+            <a class="link-gray-dark no-underline flex-self-center" href="/VickySalunkhe">
+              <strong>VickySalunkhe</strong>
+              <span class="text-gray">Vicky Salunkhe</span>
+</a>          </span>
+      </li>
+      <li class="mb-2 d-flex">
+        <a class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/Bestfastfire/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/Bestfastfire">
+          <img class="d-block avatar-user" src="https://avatars0.githubusercontent.com/u/22732544?s=64&amp;v=4" width="32" height="32" alt="@Bestfastfire">
+</a>          <span class="flex-self-center flex-auto min-width-0 css-truncate css-truncate-target width-fit">
+            <a class="link-gray-dark no-underline flex-self-center" href="/Bestfastfire">
+              <strong>Bestfastfire</strong>
+              <span class="text-gray">Woton Sampaio</span>
+</a>          </span>
+      </li>
+  </ul>
 
