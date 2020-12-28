@@ -138,7 +138,7 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
       radius: Radius.circular(widget.radius ?? 0),
       color: _themeColor,
       textDirection: _textDirection,
-      thickness: widget.thickness ?? 6,
+      thickness: widget.thickness ?? 8,
       fadeoutOpacityAnimation: _fadeoutOpacityAnimation,
       padding: MediaQuery.of(context).padding,
     );
@@ -186,37 +186,52 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (_useCupertinoScrollbar)
       return CupertinoScrollbar(
-        child: widget.child,
-        isAlwaysShown: widget.isAlwaysShown,
-        controller: widget.controller);
+          child: widget.child,
+          isAlwaysShown: widget.isAlwaysShown,
+          controller: widget.controller);
 
     return NotificationListener<ScrollNotification>(
-      onNotification: _handleScrollNotification,
-      child: GestureDetector(
-        onVerticalDragUpdate: widget.allowDrag
-            ? _onVerticalDragUpdate : null,
-        child: RepaintBoundary(
-          child: CustomPaint(
-            foregroundPainter: _materialPainter,
-            child: RepaintBoundary(
-              child: widget.child))),
-      ));
+        onNotification: _handleScrollNotification,
+        child: GestureDetector(
+          onHorizontalDragUpdate:
+              widget.allowDrag ? _onHorizontalDragUpdate : null,
+          onVerticalDragUpdate: widget.allowDrag ? _onVerticalDragUpdate : null,
+          child: RepaintBoundary(
+              child: CustomPaint(
+                  foregroundPainter: _materialPainter,
+                  child: RepaintBoundary(child: widget.child))),
+        ));
+  }
+
+  void _onHorizontalDragUpdate(DragUpdateDetails details) {
+    final total = widget.controller.position.maxScrollExtent;
+
+    if (widget.controller.position.extentBefore > 0 ||
+        widget.controller.position.extentAfter > 0) {
+      if (details.localPosition.dx < 0) return widget.controller.jumpTo(0);
+
+      final offSet = total /
+          widget.controller.position.extentInside *
+          details.localPosition.dx;
+
+      if (offSet > total) return widget.controller.jumpTo(total);
+
+      widget.controller.jumpTo(offSet);
+    }
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
     final total = widget.controller.position.maxScrollExtent;
 
-    if(widget.controller.position.extentBefore > 0
-        || widget.controller.position.extentAfter > 0){
+    if (widget.controller.position.extentBefore > 0 ||
+        widget.controller.position.extentAfter > 0) {
+      if (details.localPosition.dy < 0) return widget.controller.jumpTo(0);
 
-      if(details.localPosition.dy < 0)
-        return widget.controller.jumpTo(0);
+      final offSet = total /
+          widget.controller.position.extentInside *
+          details.localPosition.dy;
 
-      final offSet = total / widget.controller.position.extentInside
-          * details.localPosition.dy;
-
-      if(offSet > total)
-        return widget.controller.jumpTo(total);
+      if (offSet > total) return widget.controller.jumpTo(total);
 
       widget.controller.jumpTo(offSet);
     }
