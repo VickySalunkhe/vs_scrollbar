@@ -37,6 +37,8 @@ class VsScrollbar extends StatefulWidget {
     this.controller,
     this.allowDrag = true,
     this.isAlwaysShown = false,
+    this.scrollbarFadeDuration = _kScrollbarFadeDuration,
+    this.scrollbarTimeToFade = _kScrollbarTimeToFade,
   })  : assert(!isAlwaysShown || controller != null,
             'When isAlwaysShown is true, must pass a controller that is attached to a scroll view'),
         super(key: key);
@@ -66,6 +68,9 @@ class VsScrollbar extends StatefulWidget {
   // sets radius to the CustomScrollBar
   final double radius;
 
+  final Duration scrollbarFadeDuration;
+  final Duration scrollbarTimeToFade;
+
   @override
   _ScrollbarState createState() => _ScrollbarState();
 }
@@ -84,7 +89,7 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
     super.initState();
     _fadeoutAnimationController = AnimationController(
       vsync: this,
-      duration: _kScrollbarFadeDuration,
+      duration: widget.scrollbarFadeDuration,
     );
     _fadeoutOpacityAnimation = CurvedAnimation(
       parent: _fadeoutAnimationController,
@@ -165,7 +170,7 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
       );
       if (!widget.isAlwaysShown) {
         _fadeoutTimer?.cancel();
-        _fadeoutTimer = Timer(_kScrollbarTimeToFade, () {
+        _fadeoutTimer = Timer(widget.scrollbarTimeToFade, () {
           _fadeoutAnimationController.reverse();
           _fadeoutTimer = null;
         });

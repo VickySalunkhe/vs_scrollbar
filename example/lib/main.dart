@@ -64,9 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 allowDrag:
                     true, // allows to scroll the list using scrollbar [Default : true]
                 color: Colors.purple[900], // sets color of vsScrollBar
-                isAlwaysShown: true, // default false
+                // isAlwaysShown: true, // default false
                 radius: 50, // sets radius of vsScrollBar
                 thickness: 8, // sets thickness of vsScrollBar
+                // sets scrollbar fade duration [ Default : Duration(milliseconds: 300)]
+                scrollbarFadeDuration: Duration(milliseconds: 500),
+                // sets scrollbar fade duration [ Default : Duration(milliseconds: 600)]
+                scrollbarTimeToFade: Duration(milliseconds: 800),
                 child: ListView.builder(
                     controller:
                         _scrollController, // use same scrollController object to support drag functionality

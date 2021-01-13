@@ -6,6 +6,8 @@ Customizable ScrollBar that can be dragged for quick navigation supporting both 
 
 You can adjust scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
 
+Control animation duration of scrollbar using scrollbarTimeToFade, scrollbarFadeDuration properties.
+
 Wrap This ScrollBar to any ScrollableList.  
 ```SingleChildScrollView```  
 ```ListView```  
@@ -36,6 +38,10 @@ VsScrollbar(
    radius: 50, // sets radius of vsScrollBar
    thickness: 8, // sets thickness of vsScrollBar
    isAlwaysShown: true, // default false
+   // sets scrollbar fade duration [ Default : Duration(milliseconds: 300)]
+   scrollbarFadeDuration: Duration(milliseconds:500), 
+   // sets scrollbar fade duration [ Default : Duration(milliseconds: 600)]
+   scrollbarTimeToFade: Duration(milliseconds:800), 
    child: ListView.builder(
              controller: _scrollController, 
              shrinkWrap: true,
