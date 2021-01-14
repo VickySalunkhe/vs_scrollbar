@@ -1,14 +1,18 @@
-# vs_scrollbar
+# vs_scrollbar  [![Pub](https://img.shields.io/pub/v/vs_scrollbar.svg)](https://pub.dartlang.org/packages/vs_scrollbar)
 
-[![Pub](https://img.shields.io/pub/v/vs_scrollbar.svg)](https://pub.dartlang.org/packages/vs_scrollbar)
+Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
 
+---
 
 ## Table of Contents
 
 - [Installing](#installing) - How to install
+- [Package Details](package-details) - Package Details
 - [Example](#example) - How this plugin works
 - [Code example](#code-example) - How to use
 - [VsScrollBar object properties](#vsscrollbar-object-properties) - Modifying your VsScrollBar
+
+---
 
 ## Installing
 
@@ -24,6 +28,8 @@ Import
 ```sh
 import 'package:vs_scrollbar/vs_scrollbar.dart';
 ```
+
+## Package Details
 
 Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
 
