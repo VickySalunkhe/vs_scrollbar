@@ -33,6 +33,7 @@ ScrollController _scrollController = ScrollController();
 
 VsScrollbar(
    controller: _scrollController,
+   scrollDirection: Axis.vertical, // @REQUIRED
    allowDrag: true, // allows to scroll the list using scrollbar [default : true]
    color: Colors.purple[900], // sets color of vsScrollBar
    radius: 50, // sets radius of vsScrollBar
@@ -47,6 +48,7 @@ VsScrollbar(
              shrinkWrap: true,
              physics: BouncingScrollPhysics(),
              itemCount: 6,
+             scrollDirection: Axis.vertical,
              itemBuilder: (BuildContext context, int index) {
                    return Container(
                           height: 100,

@@ -37,6 +37,7 @@ class VsScrollbar extends StatefulWidget {
     this.controller,
     this.allowDrag = true,
     this.isAlwaysShown = false,
+    @required this.scrollDirection,
     this.scrollbarFadeDuration = _kScrollbarFadeDuration,
     this.scrollbarTimeToFade = _kScrollbarTimeToFade,
   })  : assert(!isAlwaysShown || controller != null,
@@ -67,6 +68,9 @@ class VsScrollbar extends StatefulWidget {
 
   // sets radius to the CustomScrollBar
   final double radius;
+
+  //
+  final Axis scrollDirection;
 
   final Duration scrollbarFadeDuration;
   final Duration scrollbarTimeToFade;
@@ -198,9 +202,16 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
     return NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: GestureDetector(
-          onHorizontalDragUpdate:
-              widget.allowDrag ? _onHorizontalDragUpdate : null,
-          onVerticalDragUpdate: widget.allowDrag ? _onVerticalDragUpdate : null,
+          onHorizontalDragUpdate: widget.allowDrag &&
+                  widget.scrollDirection != null &&
+                  widget.scrollDirection == Axis.horizontal
+              ? _onHorizontalDragUpdate
+              : null,
+          onVerticalDragUpdate: widget.allowDrag &&
+                  widget.scrollDirection != null &&
+                  widget.scrollDirection == Axis.vertical
+              ? _onVerticalDragUpdate
+              : null,
           child: RepaintBoundary(
               child: CustomPaint(
                   foregroundPainter: _materialPainter,

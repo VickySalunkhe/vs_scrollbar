@@ -61,6 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 150,
               child: VsScrollbar(
                 controller: _scrollController,
+                // @REQUIRED
+                scrollDirection: null,
+                // _verticalList ? Axis.vertical : Axis.horizontal,
                 allowDrag:
                     true, // allows to scroll the list using scrollbar [Default : true]
                 color: Colors.purple[900], // sets color of vsScrollBar

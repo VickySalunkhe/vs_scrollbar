@@ -1,3 +1,7 @@
+## [0.1.2] - 15/01/2021
+
+*Added use case for preventing scrolling of scrollbar thorugh horizontal drag on vertical scrolling list and vice versa.
+
 ## [0.1.1] - 13/01/2021
 
 *Added scrollbarTimeToFade & scrollbarFadeDuration fields using which you can control duration of animation of scrollbar.
