@@ -69,10 +69,12 @@ class VsScrollbar extends StatefulWidget {
   // sets radius to the CustomScrollBar
   final double radius;
 
-  //
   final Axis scrollDirection;
 
+  // sets scrollbar fade animation duration
   final Duration scrollbarFadeDuration;
+
+  // Fades scrollbar after certain duration
   final Duration scrollbarTimeToFade;
 
   @override

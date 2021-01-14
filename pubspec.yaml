@@ -1,8 +1,8 @@
 name: vs_scrollbar
 description: Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
-version: 0.1.1
-homepage: https://github.com/VickySalunkhe/vs_scrollbar.git
-repository: https://github.com/VickySalunkhe/vs_scrollbar.git
+version: 0.1.2
+homepage: https://github.com/VickySalunkhe/vs_scrollbar
+repository: https://github.com/VickySalunkhe/vs_scrollbar
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

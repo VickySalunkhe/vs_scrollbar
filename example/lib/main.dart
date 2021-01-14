@@ -70,9 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 // isAlwaysShown: true, // default false
                 radius: 50, // sets radius of vsScrollBar
                 thickness: 8, // sets thickness of vsScrollBar
-                // sets scrollbar fade duration [ Default : Duration(milliseconds: 300)]
+                // sets scrollbar fade animation duration [ Default : Duration(milliseconds: 300)]
                 scrollbarFadeDuration: Duration(milliseconds: 500),
-                // sets scrollbar fade duration [ Default : Duration(milliseconds: 600)]
+                // Fades scrollbar after certain duration [ Default : Duration(milliseconds: 600)]
                 scrollbarTimeToFade: Duration(milliseconds: 800),
                 child: ListView.builder(
                     controller:

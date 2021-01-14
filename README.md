@@ -68,10 +68,10 @@ VsScrollbar(
    radius: 50, // sets radius of vsScrollBar
    thickness: 8, // sets thickness of vsScrollBar
    isAlwaysShown: true, // default false
-   // sets scrollbar fade duration [ Default : Duration(milliseconds: 300)]
-   scrollbarFadeDuration: Duration(milliseconds:500), 
-   // sets scrollbar fade duration [ Default : Duration(milliseconds: 600)]
-   scrollbarTimeToFade: Duration(milliseconds:800), 
+   // sets scrollbar fade animation duration [ Default : Duration(milliseconds: 300)]
+   scrollbarFadeDuration: Duration(milliseconds: 500),
+   // Fades scrollbar after certain duration [ Default : Duration(milliseconds: 600)]
+   scrollbarTimeToFade: Duration(milliseconds: 800),
    child: ListView.builder(
              controller: _scrollController, 
              shrinkWrap: true,
