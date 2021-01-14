@@ -2,6 +2,29 @@
 
 [![Pub](https://img.shields.io/pub/v/vs_scrollbar.svg)](https://pub.dartlang.org/packages/vs_scrollbar)
 
+
+## Table of Contents
+
+- [Installing](#installing) - How to install
+- [Example](#example) - How this plugin works
+- [Code example](#code-example) - How to use
+- [VsScrollBar object properties](#vsscrollbar-object-properties) - Modifying your VsScrollBar
+
+## Installing
+
+Add to pubspec.yaml file
+
+```sh
+dependencies:
+  vs_scrollbar: ^0.1.2
+```
+
+Import
+
+```sh
+import 'package:vs_scrollbar/vs_scrollbar.dart';
+```
+
 Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
 
 You can adjust scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
@@ -25,7 +48,7 @@ Try out example code all parameters are optional, currently serving basic use ca
 ## Vertical List
 ![](https://github.com/VickySalunkhe/vs_scrollbar/blob/main/example/assets/vertical.webp)
 
-### Code
+### Code example
 
 ```dart
 // use same scrollController object to listview and scrollbar to support drag functionality
@@ -61,6 +84,26 @@ VsScrollbar(
 ```
 ---
 
+
+## VsScrollbar object properties
+
+| Name                    | Type                | Default                               | Description                                                                  |
+| ----------------------- | ------------------- | ------------------------------------- | ---------------------------------------------------------------------------- |
+| controller              | `ScrollController`  | null                                  | Controller for Scrollbar                                                     |
+| scrollDirection         | `Axis`              | null                                  | Needed for supporting Drag functionality to work properly                    |
+| allowDrag               | `bool`              | true                                  | Allows to scroll the list using scrollbar                                    |
+| color                   | `Color`             | Colors.grey                           | ScrollBar Color                                                              |
+| radius                  | `double`            | 50                                    | Set Radius of ScrollBar                                                      |
+| thickness               | `double`            | 8                                     | Set Thickness of ScrollBar                                                   |
+| scrollbarFadeDuration   | `Duration`          | Duration(milliseconds: 300)           | Sets scrollbar fade animation duration                                       |
+| scrollbarTimeToFade     | `Duration`          | Duration(milliseconds: 600)           | Fades scrollbar after certain duration                                       |
+
+---
+
+## Pull request and feedback are always appreciated :)
+
+---
+
 ### Show some :heart: and star the repo.
 
 [![GitHub followers](https://img.shields.io/github/followers/VickySalunkhe.svg?style=social&label=Follow)](https://github.com/VickySalunkhe)
@@ -78,31 +121,4 @@ If you found this project useful, then please consider giving it a :star: on Git
 
 ---
 
-
-<div class="BorderGrid-cell">
-              <h2 class="h4 mb-3">
-  <a href="/VickySalunkhe/vs_scrollbar/graphs/contributors" class="link-gray-dark no-underline ">
-    Contributors <span title="2" class="Counter ">2</span>
-</a></h2>
-    
-  <ul class="list-style-none ">
-      <li class="mb-2 d-flex">
-        <a class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/VickySalunkhe/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/VickySalunkhe">
-          <img class="d-block avatar-user" src="https://avatars3.githubusercontent.com/u/37410248?s=64&amp;v=4" width="32" height="32" alt="@VickySalunkhe">
-</a>          <span class="flex-self-center flex-auto min-width-0 css-truncate css-truncate-target width-fit">
-            <a class="link-gray-dark no-underline flex-self-center" href="/VickySalunkhe">
-              <strong>VickySalunkhe</strong>
-              <span class="text-gray">Vicky Salunkhe</span>
-</a>          </span>
-      </li>
-      <li class="mb-2 d-flex">
-        <a class="mr-2" data-hovercard-type="user" data-hovercard-url="/users/Bestfastfire/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/Bestfastfire">
-          <img class="d-block avatar-user" src="https://avatars0.githubusercontent.com/u/22732544?s=64&amp;v=4" width="32" height="32" alt="@Bestfastfire">
-</a>          <span class="flex-self-center flex-auto min-width-0 css-truncate css-truncate-target width-fit">
-            <a class="link-gray-dark no-underline flex-self-center" href="/Bestfastfire">
-              <strong>Bestfastfire</strong>
-              <span class="text-gray">Woton Sampaio</span>
-</a>          </span>
-      </li>
-  </ul>
 
