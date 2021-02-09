@@ -157,7 +157,12 @@ class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
 
   bool _handleScrollNotification(ScrollNotification notification) {
     final ScrollMetrics metrics = notification.metrics;
-    if (metrics.maxScrollExtent <= metrics.minScrollExtent) {
+    // Check if metrics has content dimensions before checking
+    // min/maxScrollExtend because the getters are non-nullable and the backing
+    // fields are nullable. hasContentDimensions ensures that the values are
+    // non-null.
+    if (!metrics.hasContentDimensions ||
+        metrics.maxScrollExtent <= metrics.minScrollExtent) {
       return false;
     }
 
