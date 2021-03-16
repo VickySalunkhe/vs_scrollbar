@@ -107,6 +107,9 @@ VsScrollbar(
 
 
 ## VsScrollbarStyle object properties
+
+| Name                    | Type                | default                               | Description                                                                  |
+| ----------------------- | ------------------- | ------------------------------------- | ---------------------------------------------------------------------------- |
 | color                   | `Color`             | System ColorScheme Theme              | ScrollBar Color                                                              |
 | radius                  | `Radius`            | Radius.circular(8.0)                  | Set Radius of ScrollBar                                                      |
 | thickness               | `double`            | 8.0                                   | Set Thickness of ScrollBar                                                   |
