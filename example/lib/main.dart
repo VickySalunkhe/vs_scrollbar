@@ -14,16 +14,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter vsScrollBar Demo'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -37,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.purple[900],
-          title: Text(widget.title),
+          title: Text("'Flutter vsScrollBar Demo'"),
         ),
         body: ListView(
           padding: EdgeInsets.all(20),
@@ -46,10 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () => setState(() => _verticalList = true),
                     child: Text("Vertical List")),
-                RaisedButton(
+                ElevatedButton(
                     onPressed: () => setState(() => _verticalList = false),
                     child: Text("Horizontal List")),
               ],
@@ -61,19 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 150,
               child: VsScrollbar(
                 controller: _scrollController,
-                // @REQUIRED
-                scrollDirection: null,
-                // _verticalList ? Axis.vertical : Axis.horizontal,
-                allowDrag:
-                    true, // allows to scroll the list using scrollbar [Default : true]
-                color: Colors.purple[900], // sets color of vsScrollBar
-                // isAlwaysShown: true, // default false
-                radius: 50, // sets radius of vsScrollBar
-                thickness: 8, // sets thickness of vsScrollBar
-                // sets scrollbar fade animation duration [ Default : Duration(milliseconds: 300)]
-                scrollbarFadeDuration: Duration(milliseconds: 500),
-                // Fades scrollbar after certain duration [ Default : Duration(milliseconds: 600)]
-                scrollbarTimeToFade: Duration(milliseconds: 800),
+                showTrackOnHover: true, // default false
+                isAlwaysShown: true, // default false
+                scrollbarFadeDuration: Duration(
+                    milliseconds: 500), // default : Duration(milliseconds: 300)
+                scrollbarTimeToFade: Duration(
+                    milliseconds: 800), // default : Duration(milliseconds: 600)
+                style: VsScrollbarStyle(
+                  hoverThickness: 10.0, // default 12.0
+                  radius: Radius.circular(10), // default Radius.circular(8.0)
+                  thickness: 10.0, // default 8.0
+                  color: Colors.purple.shade900, // default ColorScheme Theme
+                ),
                 child: ListView.builder(
                     controller:
                         _scrollController, // use same scrollController object to support drag functionality

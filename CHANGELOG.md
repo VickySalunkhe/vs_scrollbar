@@ -1,3 +1,11 @@
+## [0.2.0] - 16/03/2021
+
+*Breaking Changes
+*Package Migrated to Dart Sound Null Safety
+*Added VsScrollbarStyle Class for Scrollbar Style
+*Added Drag support by default, works, if ScrollController object is passed.
+*Added hover property controllers thickness and visibility
+
 ## [0.1.2] - 15/01/2021
 
 *Added use case for preventing scrolling of scrollbar thorugh horizontal drag on vertical scrolling list and vice versa.

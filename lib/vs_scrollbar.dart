@@ -1,257 +1,346 @@
 library vs_scrollbar;
 
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+class VsScrollbarStyle {
+  /// The hoverThickness of the VsScrollbar thumb.
+  /// default value is 12.0 pixels.
+  final double hoverThickness;
+
+  /// The thickness of the VsScrollbar thumb.
+  /// default thickness of 8.0 pixels.
+  final double thickness;
+
+  /// The radius of the VsScrollbar thumb.
+  /// default [Radius.circular] of 8.0 pixels.
+  final Radius radius;
+
+  /// The color of the VsScrollbar thumb.
+  final Color? color;
+
+  const VsScrollbarStyle(
+      {this.radius = _kScrollbarRadius,
+      this.thickness = _kScrollbarThickness,
+      this.hoverThickness = _kScrollbarThicknessWithTrack,
+      this.color});
+}
+
+const VsScrollbarStyle _kScrollbarStyle = const VsScrollbarStyle();
+const double _kScrollbarThickness = 8.0;
+const double _kScrollbarThicknessWithTrack = 12.0;
+const double _kScrollbarMargin = 2.0;
+const double _kScrollbarMinLength = 48.0;
+const Radius _kScrollbarRadius = Radius.circular(8.0);
 const Duration _kScrollbarFadeDuration = Duration(milliseconds: 300);
 const Duration _kScrollbarTimeToFade = Duration(milliseconds: 600);
 
-/// A material design scrollbar.
+/// To add a VsScrollbar to a [ScrollView], wrap the scroll view
+/// widget in a [VsScrollbar] widget.
 ///
-/// A scrollbar indicates which portion of a [Scrollable] widget is actually
-/// visible.
-///
-/// Dynamically changes to an iOS style scrollbar that looks like
-/// [CupertinoScrollbar] on the iOS platform.
-///
-/// To add a scrollbar to a [ScrollView], simply wrap the scroll view widget in
-/// a [VsScrollbar] widget.
+/// The color of the VsScrollbar will change when dragged. A hover animation is
+/// also triggered when used on web and desktop platforms. A VsScrollbar track
+/// can also been drawn when triggered by a hover event, which is controlled by
+/// [showTrackOnHover]. The thickness of the track and VsScrollbar thumb will
+/// become larger when hovering, unless overridden by [hoverThickness].
 ///
 /// See also:
 ///
-///  * [ListView], which display a linear, scrollable list of children.
-///  * [GridView], which display a 2 dimensional, scrollable array of children.
+///  * [RawScrollbar], a basic VsScrollbar that fades in and out, extended
+///    by this class to add more animations and behaviors.
+///  * [ScrollbarTheme], which configures the VsScrollbar's appearance.
+///  * [ListView], which displays a linear, scrollable list of children.
+///  * [GridView], which displays a 2 dimensional, scrollable array of children.
 class VsScrollbar extends StatefulWidget {
-  /// Creates a material design scrollbar that wraps the given [child].
+  /// Creates a material design VsScrollbar that by default will connect to the
+  /// closest Scrollable descendant of [child].
   ///
   /// The [child] should be a source of [ScrollNotification] notifications,
   /// typically a [Scrollable] widget.
+  ///
+  /// If the [controller] is null, the default behavior is to
+  /// enable VsScrollbar dragging using the [PrimaryScrollController].
+  ///
   const VsScrollbar({
-    Key key,
-    @required this.child,
-    this.color,
-    this.thickness,
-    this.radius,
+    Key? key,
+    required this.child,
     this.controller,
-    this.allowDrag = true,
-    this.isAlwaysShown = false,
-    @required this.scrollDirection,
-    this.scrollbarFadeDuration = _kScrollbarFadeDuration,
-    this.scrollbarTimeToFade = _kScrollbarTimeToFade,
-  })  : assert(!isAlwaysShown || controller != null,
-            'When isAlwaysShown is true, must pass a controller that is attached to a scroll view'),
-        super(key: key);
+    this.style = _kScrollbarStyle,
+    this.scrollbarFadeDuration,
+    this.scrollbarTimeToFade,
+    this.isAlwaysShown,
+    this.showTrackOnHover,
+    this.notificationPredicate,
+  }) : super(key: key);
 
-  /// The widget below this widget in the tree.
-  ///
-  /// The scrollbar will be stacked on top of this child. This child (and its
-  /// subtree) should include a source of [ScrollNotification] notifications.
-  ///
-  /// Typically a [ListView] or [CustomScrollView].
+  /// {@macro flutter.widgets.VsScrollbar.child}
   final Widget child;
 
-  /// {@macro flutter.cupertino.cupertinoScrollbar.controller}
-  final ScrollController controller;
+  /// {@macro flutter.widgets.VsScrollbar.controller}
+  final ScrollController? controller;
 
-  /// {@macro flutter.cupertino.cupertinoScrollbar.isAlwaysShown}
-  final bool isAlwaysShown;
+  /// {@macro flutter.widgets.VsScrollbar.isAlwaysShown}
+  final bool? isAlwaysShown;
 
-  /// Allow drag scroll bar
-  final bool allowDrag;
+  /// If this property is null, then [ScrollbarThemeData.showTrackOnHover] of
+  /// [ThemeData.scrollbarTheme] is used. If that is also null, the default value
+  /// is false.
+  final bool? showTrackOnHover;
 
-  final Color color;
+  ///Style Property for VsScrollbar
+  final VsScrollbarStyle style;
 
-  // sets thickness of CustomScrollBar
-  final double thickness;
+  /// {@macro flutter.widgets.VsScrollbar.notificationPredicate}
+  final ScrollNotificationPredicate? notificationPredicate;
 
-  // sets radius to the CustomScrollBar
-  final double radius;
+  /// default 600ms
+  final Duration? scrollbarTimeToFade;
 
-  final Axis scrollDirection;
-
-  // sets scrollbar fade animation duration
-  final Duration scrollbarFadeDuration;
-
-  // Fades scrollbar after certain duration
-  final Duration scrollbarTimeToFade;
+  /// default 300ms
+  final Duration? scrollbarFadeDuration;
 
   @override
   _ScrollbarState createState() => _ScrollbarState();
 }
 
-class _ScrollbarState extends State<VsScrollbar> with TickerProviderStateMixin {
-  ScrollbarPainter _materialPainter;
-  TextDirection _textDirection;
-  Color _themeColor;
-  bool _useCupertinoScrollbar;
-  AnimationController _fadeoutAnimationController;
-  Animation<double> _fadeoutOpacityAnimation;
-  Timer _fadeoutTimer;
+class _ScrollbarState extends State<VsScrollbar> {
+  @override
+  Widget build(BuildContext context) {
+    return _MaterialScrollbar(
+      child: widget.child,
+      controller: widget.controller,
+      isAlwaysShown: widget.isAlwaysShown,
+      showTrackOnHover: widget.showTrackOnHover,
+      hoverThickness: widget.style.hoverThickness,
+      thickness: widget.style.thickness,
+      radius: widget.style.radius,
+      color: widget.style.color,
+      notificationPredicate: widget.notificationPredicate,
+    );
+  }
+}
+
+class _MaterialScrollbar extends RawScrollbar {
+  const _MaterialScrollbar({
+    Key? key,
+    required Widget child,
+    ScrollController? controller,
+    bool? isAlwaysShown,
+    this.showTrackOnHover,
+    this.hoverThickness,
+    this.color,
+    this.scrollbarFadeDuration,
+    this.scrollbarTimeToFade,
+    double? thickness,
+    Radius? radius,
+    ScrollNotificationPredicate? notificationPredicate,
+  }) : super(
+          key: key,
+          child: child,
+          controller: controller,
+          isAlwaysShown: isAlwaysShown,
+          thickness: thickness,
+          radius: radius,
+          fadeDuration: scrollbarFadeDuration ?? _kScrollbarFadeDuration,
+          timeToFade: scrollbarTimeToFade ?? _kScrollbarTimeToFade,
+          pressDuration: Duration.zero,
+          notificationPredicate:
+              notificationPredicate ?? defaultScrollNotificationPredicate,
+        );
+  final Duration? scrollbarTimeToFade;
+  final Duration? scrollbarFadeDuration;
+
+  final Color? color;
+  final bool? showTrackOnHover;
+  final double? hoverThickness;
+
+  @override
+  _MaterialScrollbarState createState() => _MaterialScrollbarState();
+}
+
+class _MaterialScrollbarState extends RawScrollbarState<_MaterialScrollbar> {
+  late AnimationController _hoverAnimationController;
+  bool _dragIsActive = false;
+  bool _hoverIsActive = false;
+  late ColorScheme _colorScheme;
+  late ScrollbarThemeData _scrollbarTheme;
+  // On Android, scrollbars should match native appearance.
+  late bool _useAndroidScrollbar;
+
+  @override
+  bool get showScrollbar =>
+      widget.isAlwaysShown ?? _scrollbarTheme.isAlwaysShown ?? false;
+
+  bool get _showTrackOnHover =>
+      widget.showTrackOnHover ?? _scrollbarTheme.showTrackOnHover ?? false;
+
+  Set<MaterialState> get _states => <MaterialState>{
+        if (_dragIsActive) MaterialState.dragged,
+        if (_hoverIsActive) MaterialState.hovered,
+      };
+
+  MaterialStateProperty<Color> get _thumbColor {
+    final Color onSurface = widget.color ?? _colorScheme.onSurface;
+    late Color dragColor;
+    late Color hoverColor;
+    late Color idleColor;
+    dragColor = onSurface.withOpacity(0.9);
+    hoverColor = onSurface.withOpacity(0.75);
+    idleColor = onSurface.withOpacity(0.5);
+
+    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      if (states.contains(MaterialState.dragged))
+        return _scrollbarTheme.thumbColor?.resolve(states) ?? dragColor;
+
+      // If the track is visible, the thumb color hover animation is ignored and
+      // changes immediately.
+      if (states.contains(MaterialState.hovered) && _showTrackOnHover)
+        return _scrollbarTheme.thumbColor?.resolve(states) ?? hoverColor;
+
+      return Color.lerp(
+        _scrollbarTheme.thumbColor?.resolve(states) ?? idleColor,
+        _scrollbarTheme.thumbColor?.resolve(states) ?? hoverColor,
+        _hoverAnimationController.value,
+      )!;
+    });
+  }
+
+  MaterialStateProperty<Color> get _trackColor {
+    final Color onSurface = widget.color ?? _colorScheme.onSurface;
+
+    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      if (states.contains(MaterialState.hovered) && _showTrackOnHover) {
+        return _scrollbarTheme.trackColor?.resolve(states) ??
+            onSurface.withOpacity(0.05);
+      }
+      return const Color(0x00000000);
+    });
+  }
+
+  MaterialStateProperty<Color> get _trackBorderColor {
+    final Color onSurface = widget.color ?? _colorScheme.onSurface;
+
+    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      if (states.contains(MaterialState.hovered) && _showTrackOnHover) {
+        return _scrollbarTheme.trackBorderColor?.resolve(states) ??
+            onSurface.withOpacity(0.1);
+      }
+      return const Color(0x00000000);
+    });
+  }
+
+  MaterialStateProperty<double> get _thickness {
+    return MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      if (states.contains(MaterialState.hovered) && _showTrackOnHover)
+        return widget.hoverThickness ??
+            _scrollbarTheme.thickness?.resolve(states) ??
+            _kScrollbarThicknessWithTrack;
+      // The default VsScrollbar thickness is smaller on mobile.
+      return widget.thickness ??
+          _scrollbarTheme.thickness?.resolve(states) ??
+          (_kScrollbarThickness / (_useAndroidScrollbar ? 2 : 1));
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _fadeoutAnimationController = AnimationController(
+    _hoverAnimationController = AnimationController(
       vsync: this,
-      duration: widget.scrollbarFadeDuration,
+      duration: const Duration(milliseconds: 200),
     );
-    _fadeoutOpacityAnimation = CurvedAnimation(
-      parent: _fadeoutAnimationController,
-      curve: Curves.fastOutSlowIn,
-    );
+    _hoverAnimationController.addListener(() {
+      updateScrollbarPainter();
+    });
   }
 
   @override
   void didChangeDependencies() {
+    final ThemeData theme = Theme.of(context);
+    _colorScheme = theme.colorScheme;
+    _scrollbarTheme = theme.scrollbarTheme;
+    switch (theme.platform) {
+      case TargetPlatform.android:
+        _useAndroidScrollbar = true;
+        break;
+      case TargetPlatform.iOS:
+      case TargetPlatform.linux:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+        _useAndroidScrollbar = false;
+        break;
+    }
     super.didChangeDependencies();
-    assert((() {
-      _useCupertinoScrollbar = null;
-      return true;
-    })());
-    _themeColor = widget.color ?? Colors.grey;
-    _textDirection = Directionality.of(context);
-    _materialPainter = _buildMaterialScrollbarPainter();
-    _useCupertinoScrollbar = false;
-    _triggerScrollbar();
-
-    assert(_useCupertinoScrollbar != null);
   }
 
   @override
-  void didUpdateWidget(VsScrollbar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.isAlwaysShown != oldWidget.isAlwaysShown) {
-      if (widget.isAlwaysShown == false) {
-        _fadeoutAnimationController.reverse();
-      } else {
-        _triggerScrollbar();
-        _fadeoutAnimationController.animateTo(1.0);
-      }
-    }
+  void updateScrollbarPainter() {
+    scrollbarPainter
+      ..color = _thumbColor.resolve(_states)
+      ..trackColor = _trackColor.resolve(_states)
+      ..trackBorderColor = _trackBorderColor.resolve(_states)
+      ..textDirection = Directionality.of(context)
+      ..thickness = _thickness.resolve(_states)
+      ..radius = widget.radius ??
+          _scrollbarTheme.radius ??
+          (_useAndroidScrollbar ? null : _kScrollbarRadius)
+      ..crossAxisMargin = _scrollbarTheme.crossAxisMargin ??
+          (_useAndroidScrollbar ? 0.0 : _kScrollbarMargin)
+      ..mainAxisMargin = _scrollbarTheme.mainAxisMargin ?? 0.0
+      ..minLength = _scrollbarTheme.minThumbLength ?? _kScrollbarMinLength
+      ..padding = MediaQuery.of(context).padding;
   }
 
-  // Wait one frame and cause an empty scroll event.  This allows the thumb to
-  // show immediately when isAlwaysShown is true.  A scroll event is required in
-  // order to paint the thumb.
-  void _triggerScrollbar() {
-    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
-      if (widget.isAlwaysShown) {
-        _fadeoutTimer?.cancel();
-        widget.controller.position.didUpdateScrollPositionBy(0);
-      }
+  @override
+  void handleThumbPressStart(Offset localPosition) {
+    super.handleThumbPressStart(localPosition);
+    setState(() {
+      _dragIsActive = true;
     });
   }
 
-  ScrollbarPainter _buildMaterialScrollbarPainter() {
-    return ScrollbarPainter(
-      radius: Radius.circular(widget.radius ?? 0),
-      color: _themeColor,
-      textDirection: _textDirection,
-      thickness: widget.thickness ?? 8,
-      fadeoutOpacityAnimation: _fadeoutOpacityAnimation,
-      padding: MediaQuery.of(context).padding,
-    );
+  @override
+  void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
+    super.handleThumbPressEnd(localPosition, velocity);
+    setState(() {
+      _dragIsActive = false;
+    });
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    final ScrollMetrics metrics = notification.metrics;
-    if (metrics.maxScrollExtent <= metrics.minScrollExtent) {
-      return false;
+  @override
+  void handleHover(PointerHoverEvent event) {
+    super.handleHover(event);
+    // Check if the position of the pointer falls over the painted VsScrollbar
+    if (isPointerOverScrollbar(event.position)) {
+      // Pointer is hovering over the VsScrollbar
+      setState(() {
+        _hoverIsActive = true;
+      });
+      _hoverAnimationController.forward();
+    } else if (_hoverIsActive) {
+      // Pointer was, but is no longer over painted VsScrollbar.
+      setState(() {
+        _hoverIsActive = false;
+      });
+      _hoverAnimationController.reverse();
     }
+  }
 
-    // iOS sub-delegates to the CupertinoScrollbar instead and doesn't handle
-    // scroll notifications here.
-    if (!_useCupertinoScrollbar &&
-        (notification is ScrollUpdateNotification ||
-            notification is OverscrollNotification)) {
-      if (_fadeoutAnimationController.status != AnimationStatus.forward) {
-        _fadeoutAnimationController.forward();
-      }
-
-      _materialPainter.update(
-        notification.metrics,
-        notification.metrics.axisDirection,
-      );
-      if (!widget.isAlwaysShown) {
-        _fadeoutTimer?.cancel();
-        _fadeoutTimer = Timer(widget.scrollbarTimeToFade, () {
-          _fadeoutAnimationController.reverse();
-          _fadeoutTimer = null;
-        });
-      }
-    }
-    return false;
+  @override
+  void handleHoverExit(PointerExitEvent event) {
+    super.handleHoverExit(event);
+    setState(() {
+      _hoverIsActive = false;
+    });
+    _hoverAnimationController.reverse();
   }
 
   @override
   void dispose() {
-    _fadeoutAnimationController.dispose();
-    _fadeoutTimer?.cancel();
-    _materialPainter?.dispose();
+    _hoverAnimationController.dispose();
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_useCupertinoScrollbar)
-      return CupertinoScrollbar(
-          child: widget.child,
-          isAlwaysShown: widget.isAlwaysShown,
-          controller: widget.controller);
-
-    return NotificationListener<ScrollNotification>(
-        onNotification: _handleScrollNotification,
-        child: GestureDetector(
-          onHorizontalDragUpdate: widget.allowDrag &&
-                  widget.scrollDirection != null &&
-                  widget.scrollDirection == Axis.horizontal
-              ? _onHorizontalDragUpdate
-              : null,
-          onVerticalDragUpdate: widget.allowDrag &&
-                  widget.scrollDirection != null &&
-                  widget.scrollDirection == Axis.vertical
-              ? _onVerticalDragUpdate
-              : null,
-          child: RepaintBoundary(
-              child: CustomPaint(
-                  foregroundPainter: _materialPainter,
-                  child: RepaintBoundary(child: widget.child))),
-        ));
-  }
-
-  void _onHorizontalDragUpdate(DragUpdateDetails details) {
-    final total = widget.controller.position.maxScrollExtent;
-
-    if (widget.controller.position.extentBefore > 0 ||
-        widget.controller.position.extentAfter > 0) {
-      if (details.localPosition.dx < 0) return widget.controller.jumpTo(0);
-
-      final offSet = total /
-          widget.controller.position.extentInside *
-          details.localPosition.dx;
-
-      if (offSet > total) return widget.controller.jumpTo(total);
-
-      widget.controller.jumpTo(offSet);
-    }
-  }
-
-  void _onVerticalDragUpdate(DragUpdateDetails details) {
-    final total = widget.controller.position.maxScrollExtent;
-
-    if (widget.controller.position.extentBefore > 0 ||
-        widget.controller.position.extentAfter > 0) {
-      if (details.localPosition.dy < 0) return widget.controller.jumpTo(0);
-
-      final offSet = total /
-          widget.controller.position.extentInside *
-          details.localPosition.dy;
-
-      if (offSet > total) return widget.controller.jumpTo(total);
-
-      widget.controller.jumpTo(offSet);
-    }
   }
 }

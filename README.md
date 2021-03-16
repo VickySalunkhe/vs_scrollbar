@@ -20,7 +20,7 @@ Add to pubspec.yaml file
 
 ```sh
 dependencies:
-  vs_scrollbar: ^0.1.2
+  vs_scrollbar: ^0.2.0
 ```
 
 Import
@@ -33,12 +33,15 @@ import 'package:vs_scrollbar/vs_scrollbar.dart';
 
 Customizable ScrollBar that can be dragged for quick navigation supporting both Horizontal and Vertical list.
 
-You can adjust scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
+You can customize scrollbar's ```thickness```, ```radius```, set custom ```colors``` and handle support for list drag functionality with prebuilt methods of default ScrollBar for Flutter.
 
 Control animation duration of scrollbar using scrollbarTimeToFade, scrollbarFadeDuration properties.
 
+Drag Behaviour with scrollbar is by default supported, if ScrollController object is passed.
+
 Wrap This ScrollBar to any ScrollableList.  
 ```SingleChildScrollView```  
+```GridView```  
 ```ListView```  
 ```Listview.builder```
 
@@ -62,16 +65,16 @@ ScrollController _scrollController = ScrollController();
 
 VsScrollbar(
    controller: _scrollController,
-   scrollDirection: Axis.vertical, // @REQUIRED
-   allowDrag: true, // allows to scroll the list using scrollbar [default : true]
-   color: Colors.purple[900], // sets color of vsScrollBar
-   radius: 50, // sets radius of vsScrollBar
-   thickness: 8, // sets thickness of vsScrollBar
+   showTrackOnHover: true,// default false
    isAlwaysShown: true, // default false
-   // sets scrollbar fade animation duration [ Default : Duration(milliseconds: 300)]
-   scrollbarFadeDuration: Duration(milliseconds: 500),
-   // Fades scrollbar after certain duration [ Default : Duration(milliseconds: 600)]
-   scrollbarTimeToFade: Duration(milliseconds: 800),
+   scrollbarFadeDuration: Duration(milliseconds: 500), // default : Duration(milliseconds: 300)
+   scrollbarTimeToFade: Duration(milliseconds: 800),// default : Duration(milliseconds: 600)
+   style: VsScrollbarStyle(
+            hoverThickness: 10.0, // default 12.0
+            radius: Radius.circular(10), // default Radius.circular(8.0)
+            thickness: 10.0, // [ default 8.0 ]
+            color: Colors.purple.shade900, // default ColorScheme Theme
+          ),
    child: ListView.builder(
              controller: _scrollController, 
              shrinkWrap: true,
@@ -93,16 +96,21 @@ VsScrollbar(
 
 ## VsScrollbar object properties
 
-| Name                    | Type                | Default                               | Description                                                                  |
+| Name                    | Type                | default                               | Description                                                                  |
 | ----------------------- | ------------------- | ------------------------------------- | ---------------------------------------------------------------------------- |
 | controller              | `ScrollController`  | null                                  | Controller for Scrollbar                                                     |
-| scrollDirection         | `Axis`              | null                                  | Needed for supporting Drag functionality to work properly                    |
-| allowDrag               | `bool`              | true                                  | Allows to scroll the list using scrollbar                                    |
-| color                   | `Color`             | Colors.grey                           | ScrollBar Color                                                              |
-| radius                  | `double`            | 50                                    | Set Radius of ScrollBar                                                      |
-| thickness               | `double`            | 8                                     | Set Thickness of ScrollBar                                                   |
 | scrollbarFadeDuration   | `Duration`          | Duration(milliseconds: 300)           | Sets scrollbar fade animation duration                                       |
 | scrollbarTimeToFade     | `Duration`          | Duration(milliseconds: 600)           | Fades scrollbar after certain duration                                       |
+| isAlwaysShown           | `bool`              | false                                 | controls visibility of scrollbar when ideal                                  |
+| showTrackOnHover        | `bool`              | false                                 | controls visibility of scrollbar while hovering                              |
+| style                   | `VsScrollbarStyle`  | VsScrollbarStyle()                    | Style Class for VsScrollBar                                                  |
+
+
+## VsScrollbarStyle object properties
+| color                   | `Color`             | System ColorScheme Theme              | ScrollBar Color                                                              |
+| radius                  | `Radius`            | Radius.circular(8.0)                  | Set Radius of ScrollBar                                                      |
+| thickness               | `double`            | 8.0                                   | Set Thickness of ScrollBar                                                   |
+| hoverThickness          | `double`            | 12.0                                  | Set Hover Thickness of ScrollBar                                             |
 
 ---
 
