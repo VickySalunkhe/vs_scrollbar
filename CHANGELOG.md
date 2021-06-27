@@ -1,3 +1,5 @@
+## [0.2.1] - 27/06/2021
+*Issue Error: isPointerOverScrollbar Fixed
 ## [0.2.0] - 16/03/2021
 
 *Breaking Changes

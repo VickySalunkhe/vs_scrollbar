@@ -20,7 +20,7 @@ Add to pubspec.yaml file
 
 ```sh
 dependencies:
-  vs_scrollbar: ^0.2.0
+  vs_scrollbar: ^0.2.1
 ```
 
 Import
