@@ -1,9 +1,7 @@
 library vs_scrollbar;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class VsScrollbarStyle {
   /// The hoverThickness of the VsScrollbar thumb.
@@ -84,7 +82,7 @@ class VsScrollbar extends StatefulWidget {
   /// {@macro flutter.widgets.VsScrollbar.isAlwaysShown}
   final bool? isAlwaysShown;
 
-  /// If this property is null, then [ScrollbarThemeData.showTrackOnHover] of
+  /// If this property is null, then [ScrollbarThemeData.trakVisiblity] of
   /// [ThemeData.scrollbarTheme] is used. If that is also null, the default value
   /// is false.
   final bool? showTrackOnHover;
@@ -140,7 +138,7 @@ class _MaterialScrollbar extends RawScrollbar {
           key: key,
           child: child,
           controller: controller,
-          isAlwaysShown: isAlwaysShown,
+          thumbVisibility: isAlwaysShown,
           thickness: thickness,
           radius: radius,
           fadeDuration: scrollbarFadeDuration ?? _kScrollbarFadeDuration,
@@ -171,10 +169,14 @@ class _MaterialScrollbarState extends RawScrollbarState<_MaterialScrollbar> {
 
   @override
   bool get showScrollbar =>
-      widget.isAlwaysShown ?? _scrollbarTheme.isAlwaysShown ?? false;
+      widget.thumbVisibility ??
+      _scrollbarTheme.thumbVisibility?.resolve({MaterialState.focused}) ??
+      false;
 
   bool get _showTrackOnHover =>
-      widget.showTrackOnHover ?? _scrollbarTheme.showTrackOnHover ?? false;
+      widget.showTrackOnHover ??
+      _scrollbarTheme.trackVisibility?.resolve({MaterialState.hovered}) ??
+      false;
 
   Set<MaterialState> get _states => <MaterialState>{
         if (_dragIsActive) MaterialState.dragged,
