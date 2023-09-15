@@ -1,5 +1,5 @@
 ## [1.0.0] - 15/09/2023
-* Updated Supported Dart SDK Version  sdk: ">=2.12.0 <3.0.0"
+* Updated Supported Dart SDK Version  sdk: ">=2.12.0 <4.0.0"
 * Replaced Depreciated Properties with new properties.
 * Changed Example Repo
 
