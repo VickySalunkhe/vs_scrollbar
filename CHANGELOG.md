@@ -1,3 +1,8 @@
+## [1.0.0] - 15/09/2023
+* Updated Supported Dart SDK Version  sdk: ">=2.12.0 <3.0.0"
+* Replaced Depreciated Properties with new properties.
+* Changed Example Repo
+
 ## [0.2.1] - 27/06/2021
 *Issue Error: isPointerOverScrollbar Fixed
 ## [0.2.0] - 16/03/2021

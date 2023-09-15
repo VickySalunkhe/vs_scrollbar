@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: VsScrollbar(
                 controller: _scrollController,
                 showTrackOnHover: true, // default false
-                isAlwaysShown: true, // default false
+                isAlwaysShown: false, // default false
                 scrollbarFadeDuration: Duration(
                     milliseconds: 500), // default : Duration(milliseconds: 300)
                 scrollbarTimeToFade: Duration(
